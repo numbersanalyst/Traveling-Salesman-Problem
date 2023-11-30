@@ -2,6 +2,7 @@ import random
 
 import matplotlib.pyplot as plt
 import networkx as nx
+from networkx.algorithms.approximation import traveling_salesman_problem
 
 
 def generate_complete_graph(num_nodes, weight_range=(1, 100)):
@@ -57,14 +58,21 @@ def nearest_neighbor_tsp(G, start_node=None):
     tour.append(start_node)
     plot_graph_step(G, tour, current_node, pos)
 
-    print(tour)
+    print(f"\nContructive Heuristic Tour: {tour}")
     tour_cost = calculate_tour_cost(G, tour)
-    print(f"Construction Heuristic Tour Cost: {tour_cost}")
+    print(f"Constructive Heuristic Tour Cost: {tour_cost}")
 
     plt.ioff()
     plt.show()
 
 
 if __name__ == "__main__":
-    G = generate_complete_graph(5)
+    G = generate_complete_graph(6)
+
+    approx_tour = traveling_salesman_problem(G, cycle=True)
+    approx_tour_cost = calculate_tour_cost(G, approx_tour)
+
+    print(f"\nAprroximation Tour: {approx_tour}")
+    print(f"Approximation Tour Cost: {approx_tour_cost}")
+
     nearest_neighbor_tsp(G, 0)
